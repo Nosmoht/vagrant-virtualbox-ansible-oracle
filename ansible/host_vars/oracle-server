@@ -1,0 +1,3 @@
+oracle_tnsnames:
+- name: ORCL
+  port: 1521

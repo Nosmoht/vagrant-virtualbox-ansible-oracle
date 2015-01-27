@@ -1,0 +1,33 @@
+---
+oracle_app_directory: /app
+oracle_tns_admin: /app/oracle/network/admin
+oracle_db_homes:
+  dbhome_1:
+    version: 11.2.0.3
+    edition: EE
+    path: '{{ oracle_app_directory }}/oracle/product/11.2.0/dbhome_1'
+    installation_files_directory: /share/oracle/11.2.0/patches
+    installation_files:
+    - p10404530_112030_Linux-x86-64_1of7.zip
+    - p10404530_112030_Linux-x86-64_2of7.zip
+    unpack_directory: /share/oracle/11.2.0/install
+    response_file: /tmp/dbhome_2.rsp
+oracle_databases:
+- db_name: ORA11G
+  oracle_home: dbhome_1
+  syspassword: ora11gr2
+  systempassword: ora11gr2
+  dbsnmppassword: ora11gr2
+  characterset: AL32UTF8
+  dbca_template_file: /tmp/ora11g.dbc
+  common_attributes: [
+    ]
+oracle_listeners:
+- name: LISTENER_11G
+  protocol: TCP
+  port: 1521
+  oracle_home: dbhome_1
+oracle_tns_names:
+- name: ORA11G
+  port: 1521
+  sid: ORA11G
