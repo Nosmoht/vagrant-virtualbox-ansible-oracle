@@ -1,0 +1,6 @@
+[submodule "ansible/oracle-common"]
+	path = ansible/oracle-common
+	url = git@github.com:Nosmoht/ansible-role-oracle-common.git
+[submodule "ansible/oracle-server"]
+	path = ansible/oracle-server
+	url = git@github.com:Nosmoht/ansible-role-oracle-server.git
