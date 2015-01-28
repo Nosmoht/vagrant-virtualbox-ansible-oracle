@@ -41,7 +41,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			        vb.customize ["modifyvm", :id, "--memory", opts[:memory]] if opts[:memory]
 		        	vb.customize ["modifyvm", :id, "--cpus", opts[:cpus]] if opts[:cpus]
 			end
-			config.vm.synced_folder "/home/ntbc/oracle", "/share", type: "nfs"
+			config.vm.synced_folder "/share", "/share", type: "nfs"
 			#Fix for Ansible bug resulting in an encoding error
 			ENV['PYTHONIOENCODING'] = "utf-8"
 			config.vm.provision "ansible" do |ansible|
