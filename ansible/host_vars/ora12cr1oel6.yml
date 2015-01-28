@@ -1,0 +1,32 @@
+---
+oracle_app_directory: /app
+oracle_tns_admin: /app/oracle/network/admin
+oracle_db_homes:
+  dbhome_1:
+    version: 12.1.0
+    edition: EE
+    path: '{{ oracle_app_directory }}/oracle/product/12.1.0/dbhome_1'
+    installation_files_directory: /share/oracle/12.1.0.2/patches
+    installation_files:
+    - linuxamd64_12102_database_1of2.zip
+    - linuxamd64_12102_database_2of2.zip
+    unpack_directory: /share/oracle/12.1.0.2/install
+    response_file: /tmp/dbhome_1.rsp
+oracle_databases:
+- db_name: ORA12C
+  oracle_home: dbhome_1
+  syspassword: ora12c
+  systempassword: ora12c
+  dbsnmppassword: ora12c
+  characterset: AL32UTF8
+  dbca_template_file: /tmp/ora12c.dbc
+  common_attributes: [
+    ]
+oracle_listeners:
+- name: LISTENER_12C
+  protocol: TCP
+  port: 1521
+  oracle_home: dbhome_1
+oracle_tns_names:
+- name: ORA12C
+  service_name: ORA12C
