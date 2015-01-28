@@ -7,7 +7,10 @@ VAGRANTFILE_API_VERSION = "2"
 domain = "example.com"
 
 boxes = [
-	{ :name => 'oracle-server',	:management_ip => '10.0.0.100', :cpus => 2, :memory =>  2048 },
+	{ :name => 'ora11gr2oel6', :box => 'ntbc-oel65', :ip => '10.0.0.100', :cpus => 1, :memory =>  1024 },
+	{ :name => 'ora11gr2oel7', :box => 'ntbc-oel7', :ip => '10.0.0.101', :cpus => 1, :memory =>  1024 },
+	{ :name => 'ora12cr1oel6', :box => 'ntbc-oel65', :ip => '10.0.0.102', :cpus => 1, :memory =>  1024 },
+	{ :name => 'ora12cr1oel7', :box => 'ntbc-oel7', :ip => '10.0.0.103', :cpus => 1, :memory =>  1024 },		
 ]
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
@@ -28,18 +31,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	boxes.each do |opts|
 		config.vm.define opts[:name] do |config|
 			hostname = "#{opts[:name]}.#{domain}"
-			config.vm.box = "centos-7"
-			config.vm.box_url = "https://f0fff3908f081cb6461b407be80daf97f07ac418.googledrive.com/host/0BwtuV7VyVTSkUG1PM3pCeDJ4dVE/centos7.box"
+			config.vm.box = "#{opts[:box]}"
 			config.vm.hostname = "#{hostname}"
 			config.hostmanager.aliases = "#{opts[:name]}"
-			config.vm.network :private_network, ip: opts[:management_ip]
+			config.vm.network :private_network, ip: "#{opts[:ip]}"
 			config.vm.provider "virtualbox" do |vb|
 				vb.name = opts[:name]
 				vb.customize ["modifyvm", :id, "--ioapic", "on"]
 			        vb.customize ["modifyvm", :id, "--memory", opts[:memory]] if opts[:memory]
 		        	vb.customize ["modifyvm", :id, "--cpus", opts[:cpus]] if opts[:cpus]
 			end
-			config.vm.synced_folder "/share/oracle", "/share", type: "nfs"
+			config.vm.synced_folder "/home/ntbc/oracle", "/share", type: "nfs"
 			#Fix for Ansible bug resulting in an encoding error
 			ENV['PYTHONIOENCODING'] = "utf-8"
 			config.vm.provision "ansible" do |ansible|
